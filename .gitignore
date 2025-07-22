@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Miscellaneous Build Artifacts
+*.s1
+
+# Vim
+*.swp
