@@ -96,18 +96,29 @@ endif
 
 COMPILER_STANDARD = -std=c++17
 
-INCLUDE_PATH = -I. -I$(PATH_INC) -I$(PATH_CFG)
+INCLUDE_PATH = -I$(PATH_INC) -I$(PATH_CFG)
+LIB_PATH =
+
+# TODO: OPENCV_DEFS = OPENCV_STATIC
+OPENCV_DEFS =
+DEPDEFS = $(OPENCV_DEFS)
 
 COMMON_DEFINES ?=
 
 DIAGNOSTIC_FLAGS ?=
 
 CXXFLAGS ?= $(COMPILER_WARNINGS) $(SANITIZERS) $(COMPILER_STATIC_ANALYZER) \
-             $(COMPILER_STANDARDS) $(OPTIMIZATION_LVL) \
-             $(COMMON_DEFINES) $(INCLUDE_PATHS) -fdiagnostics-color
+            $(COMPILER_STANDARD) $(OPTIMIZATION_LVL) \
+            $(COMMON_DEFINES) $(DEPDEFS) \
+            $(INCLUDE_PATHS) $(LIB_PATH) \
+            -fdiagnostics-color
 ifeq ($(BUILD_TYPE), RELEASE)
 	CXXFLAGS += -DNDEBUG
 endif
+
+OPENCV_LIB_FLAGS = -lopencv_core4130 -lopencv_imgproc4130 -lopencv_imgcodecs4130 \
+                   -lopencv_highgui4130
+LIBS = $(OPENCV_LIB_FLAGS)
 
 LDFLAGS += $(DIAGNOSTIC_FLAGS)
 
@@ -121,7 +132,7 @@ $(TARGET): $(BUILD_DIRS) $(OBJ_FILES)
 	@echo "----------------------------------------"
 	@echo -e "\033[36mProducing output executable:\033[0m $@..."
 	@echo
-	$(GXX) $(LDFLAGS) $(OBJ_FILES) -o $@
+	$(GXX) $(LDFLAGS) -o $@ $(OBJ_FILES) $(LIBS)
 
 # Separate rule for the main object file because it has a different
 # pre-requisite list than other object files of this project.
