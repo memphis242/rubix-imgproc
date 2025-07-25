@@ -33,6 +33,10 @@
 
 # Miscellaneous Build Artifacts
 *.s1
+*.a1
 
 # Vim
 *.swp
+
+# Generated Directories
+build/
