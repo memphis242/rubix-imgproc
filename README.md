@@ -1,4 +1,4 @@
-# `rubix-imgproc`
+# `rubix-imgproc` :camera:
 Library/module that processes an image of a Rubik's cube face and produces a 3D matrix of its sides, as much as possible.
 
 ## Features
