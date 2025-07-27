@@ -130,7 +130,7 @@ _release: $(TARGET) $(LST_FILES)
 $(TARGET): $(BUILD_DIRS) $(OBJ_FILES)
 	@echo
 	@echo "----------------------------------------"
-	@echo -e "\033[36mProducing output executable:\033[0m $@..."
+	@echo -e "\033[32mProducing output executable:\033[0m $@..."
 	@echo
 	$(GXX) $(LDFLAGS) -o $@ $(OBJ_FILES) $(LIBS)
 
@@ -143,7 +143,7 @@ $(MAIN_OBJ_FILE): $(PATH_SRC)$(TARGET_NAME).cpp $(DEP_OBJ_FILES)
 	@echo
 	$(GXX) $(CXXFLAGS) -c $< -o $@
 	@echo "----------------------------------------"
-	@echo -e "\033[36mRunning static analysis\033[0m on $<..."
+	@echo -e "\033[33mRunning static analysis\033[0m on $<..."
 	@echo
 	cppcheck $(CPPCHECK_FLAGS) --template='{severity}: {file}:{line}: {message}' $< 2>&1 | tee $(PATH_BLD)cppcheck.log | python $(COLORIZE_CPPCHECK_SCRIPT)
 
@@ -154,7 +154,7 @@ $(PATH_OBJ_FILES)%.o: $(PATH_SRC)%.cpp $(PATH_INC)%.hpp
 	@echo
 	$(GXX) $(CXXFLAGS) -c $< -o $@
 	@echo "----------------------------------------"
-	@echo -e "\033[36mRunning static analysis\033[0m on $<..."
+	@echo -e "\033[33mRunning static analysis\033[0m on $<..."
 	@echo
 	cppcheck $(CPPCHECK_FLAGS) --template='{severity}: {file}:{line}: {message}' $< 2>&1 | tee $(PATH_BLD)cppcheck.log | python $(COLORIZE_CPPCHECK_SCRIPT)
 
@@ -184,7 +184,7 @@ $(PATH_OBJ_FILES)%.o: $(PATH_SRC)%.cpp
 %.lst: %.o
 	@echo
 	@echo "----------------------------------------"
-	@echo -e "\033[36mDisassembly\033[0m of $< into $@..."
+	@echo -e "\033[35mDisassembly\033[0m of $< into $@..."
 	@echo
 	$(OBJDUMP) -D $< > $@
 	@echo
