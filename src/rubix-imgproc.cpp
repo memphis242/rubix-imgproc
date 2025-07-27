@@ -17,26 +17,26 @@ int main(void)
    cv::cvtColor( img, img_gray, cv::COLOR_BGR2GRAY );
 
    // Let's play with different kernels to convolve /w the image
-   float gain = (1.0f/3.0f);
+   float gain = 0.333333f;
    cv::Mat k_vert = (cv::Mat_<float>(3,3) <<
-         0, gain*(1.0f), 0,
-         0, gain*(1.0f), 0,
-         0, gain*(1.0f), 0 );
+         0, 1, 0,
+         0, 1, 0,
+         0, 1, 0 );
    cv::Mat img_filtered_vert;
-   cv::filter2D(img, img_filtered_vert, -1, k_vert);
+   cv::filter2D(img_gray, img_filtered_vert, -1, k_vert);
 
    cv::Mat k_horz = (cv::Mat_<float>(3,3) <<
          0, 0, 0,
-         gain*(1.0f), gain*(1.0f), gain*(1.0f),
+         1, 1, 1,
          0, 0, 0 );
    cv::Mat img_filtered_horz;
-   cv::filter2D(img, img_filtered_horz, -1, k_horz);
+   cv::filter2D(img_gray, img_filtered_horz, -1, k_horz);
 
    /***************************************************************************/
 
    // Display the image(s)
    cv::imshow("Mixed Rubik's Cube", img);
-   //cv::imshow("Mixed Rubik's Cube (Grayscale)",     img_gray);
+   cv::imshow("Mixed Rubik's Cube (Grayscale)",     img_gray);
    cv::imshow("Filtered Image (Vertical Kernel)",   img_filtered_vert);
    cv::imshow("Filtered Image (Horizontal Kernel)", img_filtered_horz);
 
