@@ -17,7 +17,6 @@ int main(void)
    cv::cvtColor( img, img_gray, cv::COLOR_BGR2GRAY );
 
    // Let's play with different kernels to convolve /w the image
-   float gain = 0.333333f;
    cv::Mat k_vert = (cv::Mat_<float>(3,3) <<
          0, 1, 0,
          0, 1, 0,
@@ -54,11 +53,16 @@ int main(void)
    cv::Sobel(img_gray_blurred, grad_y, CV_32F, 0, 1, 3);
    cv::Mat mag_grad;
    cv::magnitude(grad_x, grad_y, mag_grad);
-   // Now that we've got the magnitude of the gradient, let's normalize before
-   // we display the image.
-   cv::Mat img_edges_sobel;
-   cv::normalize(mag_grad, img_edges_sobel, 0, 255, cv::NORM_MINMAX);
+   // Now that we've got the magnitude of the gradient, let's normalize and
+   // threshold it before we display the image.
+   cv::Mat img_edges_norm, img_edges_bin;
+   cv::normalize(mag_grad, img_edges_norm, 0, 255, cv::NORM_MINMAX);
+   cv::threshold(img_edges_norm, img_edges_bin, 50, 255, cv::THRESH_BINARY);
+
+   cv::Mat img_edges_sobel = img_edges_bin;
    img_edges_sobel.convertTo(img_edges_sobel, CV_8U);
+   cv::Mat img_edges_sobel_prethresh = img_edges_norm;
+   img_edges_sobel_prethresh.convertTo(img_edges_sobel_prethresh, CV_8U);
 
    /***************************************************************************/
 
@@ -69,6 +73,7 @@ int main(void)
    //cv::imshow("Filtered Image (Horizontal Kernel)",     img_filtered_horz);
    //cv::imshow("Gaussian Blurred Image (Built-In)",      img_gaussianblur_builtin);
    //cv::imshow("Gaussian Blurred Image (Manual Kernel)", img_gaussianblur_manualk);
+   cv::imshow("Sobel Pre-Threshold",                    img_edges_sobel_prethresh);
    cv::imshow("Sobel'd Image",                          img_edges_sobel);
 
    // Wait indefinitely until a key is pressed
