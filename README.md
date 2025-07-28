@@ -33,7 +33,6 @@ cmake -DCMAKE_C_COMPILER:FILEPATH=/c/w64devkit/bin/gcc.exe \
       -DBUILD_opencv_python3=OFF \
       -DBUILD_opencv_python2=OFF \
       -DBUILD_opencv_java=OFF \
-      -DWITH_GTK=ON \
       -DWITH_QT=OFF \
       -DWITH_OPENGL=OFF \
       -DWITH_OPENCL=OFF \
@@ -44,7 +43,6 @@ cmake -DCMAKE_C_COMPILER:FILEPATH=/c/w64devkit/bin/gcc.exe \
       -DWITH_V4L=OFF \
       -DWITH_FFMPEG=OFF \
       -DWITH_GSTREAMER=OFF \
-      -DCMAKE_BUILD_TYPE=Release \
       --no-warn-unused-cli \
       -S . \
       -B 'build' \
