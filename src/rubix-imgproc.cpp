@@ -32,13 +32,26 @@ int main(void)
    cv::Mat img_filtered_horz;
    cv::filter2D(img_gray, img_filtered_horz, -1, k_horz);
 
+   // Let's try some Gaussian blurs
+   double sigma = 10.0;
+   // First, the built-in opencv function cv::GaussianBlur()
+   cv::Mat img_gaussianblur_builtin;
+   cv::GaussianBlur(img, img_gaussianblur_builtin, cv::Size(15,15), sigma);
+   // Now, try first building the kernel using the other built-in kernel generating fcns
+   cv::Mat k1d = cv::getGaussianKernel(15, sigma, CV_64F);
+   cv::Mat k2d = k1d * k1d.t();
+   cv::Mat img_gaussianblur_manualk;
+   cv::filter2D(img, img_gaussianblur_manualk, -1, k2d);
+
    /***************************************************************************/
 
    // Display the image(s)
    cv::imshow("Mixed Rubik's Cube", img);
-   cv::imshow("Mixed Rubik's Cube (Grayscale)",     img_gray);
-   cv::imshow("Filtered Image (Vertical Kernel)",   img_filtered_vert);
-   cv::imshow("Filtered Image (Horizontal Kernel)", img_filtered_horz);
+   cv::imshow("Mixed Rubik's Cube (Grayscale)",         img_gray);
+   cv::imshow("Filtered Image (Vertical Kernel)",       img_filtered_vert);
+   cv::imshow("Filtered Image (Horizontal Kernel)",     img_filtered_horz);
+   cv::imshow("Gaussian Blurred Image (Built-In)",      img_gaussianblur_builtin);
+   cv::imshow("Gaussian Blurred Image (Manual Kernel)", img_gaussianblur_manualk);
 
    // Wait indefinitely until a key is pressed
    cv::waitKey(0);
