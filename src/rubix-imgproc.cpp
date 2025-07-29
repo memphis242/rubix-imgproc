@@ -7,7 +7,8 @@
 int main(void)
 {
    // Read in our image and make sure it loaded
-   cv::Mat img = cv::imread("lrg-mixed-rubiks-cube.jpg");
+   cv::Mat img = cv::imread("mixed-rubiks-cube.jpg");
+   //cv::Mat img = cv::imread("lrg-mixed-rubiks-cube.jpg");
    if ( img.empty() )
    {
       std::cerr << "Could not load image." << std::endl;
@@ -74,7 +75,7 @@ int main(void)
    std::vector<std::vector<cv::Point>> contours_filtered;
    for ( auto& contour : contours )
    {
-      if ( cv::contourArea(contour) >= 0.5 )
+      if ( cv::contourArea(contour) >= 0.25 )
          contours_filtered.push_back(contour);
    }
    // std::vector<std::vector<cv::Point>> contours_filtered = {
@@ -107,6 +108,10 @@ int main(void)
    cv::imshow("Canny Edges",                            canny_edges);
    cv::imshow("Contour'd Image",                        img_contourd);
    cv::imshow("Contour'd Image (Filtered)",             img_contourd_filtered);
+
+   // Print some stuff out
+   std::cout << "contours.size(): " << contours.size() << '\n';
+   std::cout << "contours_filtered.size(): " << contours_filtered.size() << '\n';
 
    // Wait indefinitely until a key is pressed
    cv::waitKey(0);
